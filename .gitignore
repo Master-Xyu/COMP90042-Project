@@ -1,2 +1,16 @@
 *.txt
 *.json
+*.cfe
+*.cfs
+*.si
+*.fdt
+*.fdx
+*.fnm
+*.nvd
+*.nvm
+*.pos
+*.tim
+*.tip
+*.doc
+*.x
+*.lock
