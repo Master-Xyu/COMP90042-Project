@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="735699ba-bc88-4610-a1d8-0a3000a65c86" name="Default Changelist" comment="" />
+    <list default="true" id="735699ba-bc88-4610-a1d8-0a3000a65c86" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/ClaimProcessing.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/IndexFiles.py" beforeDir="false" afterPath="$PROJECT_DIR$/IndexFiles.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SearchFiles.py" beforeDir="false" afterPath="$PROJECT_DIR$/SearchFiles.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -10,25 +15,41 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/IndexFiles.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="382">
-              <caret line="84" column="62" selection-start-line="84" selection-start-column="60" selection-end-line="84" selection-end-column="62" />
+            <state relative-caret-position="-331">
+              <caret line="90" column="47" selection-start-line="69" selection-start-column="8" selection-end-line="90" selection-end-column="47" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ClaimProcessing.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-59">
+              <caret line="13" column="9" selection-start-line="13" selection-start-column="9" selection-end-line="13" selection-end-column="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/SearchFiles.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="38" column="43" selection-start-line="38" selection-start-column="40" selection-end-line="38" selection-end-column="43" />
+            <state relative-caret-position="187">
+              <caret line="11" column="31" selection-start-line="11" selection-start-column="31" selection-end-line="11" selection-end-column="31" />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -38,6 +59,7 @@
       <list>
         <option value="$PROJECT_DIR$/IndexFiles.py" />
         <option value="$PROJECT_DIR$/SearchFiles.py" />
+        <option value="$PROJECT_DIR$/ClaimProcessing.py" />
       </list>
     </option>
   </component>
@@ -53,6 +75,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -64,12 +87,12 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/wiki-pages-text" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -83,8 +106,8 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.SearchFiles">
-    <configuration name="IndexFiles (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+  <component name="RunManager" selected="Python.ClaimProcessing">
+    <configuration name="ClaimProcessing" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Web-Search-Project" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -92,12 +115,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/wiki-pages-text" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/wiki-pages-text/IndexFiles.py" />
-      <option name="PARAMETERS" value="\\" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/ClaimProcessing.py" />
+      <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -171,14 +194,14 @@
     <list>
       <item itemvalue="Python.Web-Search-Project" />
       <item itemvalue="Python.SearchFiles" />
-      <item itemvalue="Python.IndexFiles (1)" />
       <item itemvalue="Python.IndexFiles" />
+      <item itemvalue="Python.ClaimProcessing" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.ClaimProcessing" />
         <item itemvalue="Python.SearchFiles" />
         <item itemvalue="Python.IndexFiles" />
-        <item itemvalue="Python.IndexFiles (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -238,17 +261,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SearchFiles.py">
+    <entry file="file://$PROJECT_DIR$/IndexFiles.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="38" column="43" selection-start-line="38" selection-start-column="40" selection-end-line="38" selection-end-column="43" />
+        <state relative-caret-position="-331">
+          <caret line="90" column="47" selection-start-line="69" selection-start-column="8" selection-end-line="90" selection-end-column="47" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/IndexFiles.py">
+    <entry file="file://$PROJECT_DIR$/ClaimProcessing.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="382">
-          <caret line="84" column="62" selection-start-line="84" selection-start-column="60" selection-end-line="84" selection-end-column="62" />
+        <state relative-caret-position="-59">
+          <caret line="13" column="9" selection-start-line="13" selection-start-column="9" selection-end-line="13" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SearchFiles.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="31" selection-start-line="11" selection-start-column="31" selection-end-line="11" selection-end-column="31" />
         </state>
       </provider>
     </entry>

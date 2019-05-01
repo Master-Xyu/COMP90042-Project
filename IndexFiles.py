@@ -43,20 +43,13 @@ class IndexFiles(object):
 
         store = SimpleFSDirectory(Paths.get(storeDir))
         analyzer = LimitTokenCountAnalyzer(analyzer, 1048576)
-        config = IndexWriterConfig(analyzer)
-        config.setOpenMode(IndexWriterConfig.OpenMode.CREATE)
-        writer = IndexWriter(store, config)
-
+        self.config = IndexWriterConfig(analyzer)
+        self.config.setOpenMode(IndexWriterConfig.OpenMode.CREATE)
+        self.writer = IndexWriter(store, config)
         self.indexDocs(root, writer)
-        ticker = Ticker()
-        print('commit index')
-        threading.Thread(target=ticker.run).start()
-        writer.commit()
-        writer.close()
-        ticker.tick = False
-        print ('done')
+        self.root = root
 
-    def indexDocs(self, root, writer):
+    def indexDocs(self):
 
         t1 = FieldType()
         t1.setStored(True)
@@ -67,7 +60,7 @@ class IndexFiles(object):
         t2.setStored(False)
         t2.setTokenized(True)
         t2.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS)
-        for root, dirnames, filenames in os.walk(top = root):
+        for root, dirnames, filenames in os.walk(top = self.root):
             print(root, dirnames, filenames)
             for filename in filenames:
                 if not filename.endswith('.txt'):
@@ -76,7 +69,20 @@ class IndexFiles(object):
                 try:
                     path = os.path.join(root, filename)
                     file = open(path, encoding="utf8")
-                    contents = file.read()
+                    i = 0
+                    #contents = file.read()
+                    while True:
+                        line = file.readline()
+                        doc = Document()
+                        if not line:
+                            break
+                        doc.add(Field("name", filename, t1))
+                        doc.add(Field("path", root, t1))
+                        doc.add(Field("line", i, t1))
+                        doc.add(Field("contents", line, t2))
+                        i+=1
+                        self.writer.addDocument(doc)
+                    """
                     file.close()
                     doc = Document()
                     doc.add(Field("name", filename, t1))
@@ -86,8 +92,16 @@ class IndexFiles(object):
                     else:
                         print ("warning: no content in " + filename)
                     writer.addDocument(doc)
+                    """
                 except Exception as e:
                     print ("Failed in indexDocs:" + str(e))
+        ticker = Ticker()
+        print('commit index')
+        threading.Thread(target=ticker.run).start()
+        self.writer.commit()
+        self.writer.close()
+        ticker.tick = False
+        print ('done')
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:

@@ -21,25 +21,33 @@ search query entered against the 'contents' field.  It will then display the
 search.close() is currently commented out because it causes a stack overflow in
 some cases.
 """
-def run(searcher, analyzer):
-    while True:
-        print
-        print("Hit enter with no input to quit.")
-        command = raw_input("Query:")
-        if command == '':
-            return
 
-        print
-        print("Searching for:" + command)
-        query = QueryParser("contents", analyzer).parse(command)
-        scoreDocs = searcher.search(query, 20).scoreDocs
-        print(len(scoreDocs) , "total matching documents.")
+class searcher:
+    
+    def __init__(self):
+        lucene.initVM(vmargs=['-Djava.awt.headless=true'])
+        base_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
+        directory = SimpleFSDirectory(Paths.get(os.path.join(base_dir, INDEX_DIR)))
+        self.searcher = IndexSearcher(DirectoryReader.open(directory))
+        self.analyzer = StandardAnalyzer()
 
+    def run(self, claim):
+        #print("Hit enter with no input to quit.")
+        #command = raw_input("Query:")
+        #if command == '':
+        #    return
+        #print("Searching for:" + command)
+        query = QueryParser("contents", self.analyzer).parse(claim)
+        scoreDocs = self.searcher.search(query, 10).scoreDocs
+        #print(len(scoreDocs) , "total matching documents.")
+        results = []
         for scoreDoc in scoreDocs:
-            doc = searcher.doc(scoreDoc.doc)
-            print('path:' + doc.get("path") + 'name:' + doc.get("name"))
+            doc = self.searcher.doc(scoreDoc.doc)
+            print('path:' + doc.get("path") + ' name:' + doc.get("name") + " line:" + doc.get("line"))
+            results.append([doc.get("name"), doc.get("line")])
+        return results
 
-
+"""
 if __name__ == '__main__':
     lucene.initVM(vmargs=['-Djava.awt.headless=true'])
     print('lucene' + lucene.VERSION)
@@ -49,3 +57,4 @@ if __name__ == '__main__':
     analyzer = StandardAnalyzer()
     run(searcher, analyzer)
     del searcher
+"""
