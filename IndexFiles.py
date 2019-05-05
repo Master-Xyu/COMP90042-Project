@@ -82,8 +82,8 @@ class IndexFiles(object):
                         doc.add(Field("contents", line, t2))
                         i+=1
                         self.writer.addDocument(doc)
-                    """
                     file.close()
+                    """
                     doc = Document()
                     doc.add(Field("name", filename, t1))
                     doc.add(Field("path", root, t1))

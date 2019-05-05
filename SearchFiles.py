@@ -5,12 +5,15 @@ INDEX_DIR = "IndexFiles.index"
 
 import sys, os, lucene
 
+
 from java.nio.file import Paths
 from org.apache.lucene.analysis.standard import StandardAnalyzer
-from org.apache.lucene.index import DirectoryReader
+from org.apache.lucene.index import DirectoryReader, Term
 from org.apache.lucene.queryparser.classic import QueryParser
+from org.apache.lucene.search import TermQuery
 from org.apache.lucene.store import SimpleFSDirectory
 from org.apache.lucene.search import IndexSearcher
+
 
 """
 This script is loosely based on the Lucene (java implementation) demo class
@@ -31,7 +34,7 @@ class searcher:
         self.searcher = IndexSearcher(DirectoryReader.open(directory))
         self.analyzer = StandardAnalyzer()
 
-    def run(self, claim):
+    def runQuery(self, claim):
         #print("Hit enter with no input to quit.")
         #command = raw_input("Query:")
         #if command == '':
@@ -46,15 +49,19 @@ class searcher:
             print('path:' + doc.get("path") + ' name:' + doc.get("name") + " line:" + doc.get("line"))
             results.append([doc.get("name"), doc.get("line")])
         return results
+    def runTermQuery(self, claim):
+        query = TermQuery(Term("contents", claim))
+        scoreDocs = self.searcher.search(query, 1)
+        #print(len(scoreDocs) , "total matching documents.")
+        print(scoreDocs.totalHits)
+        doc = self.searcher.doc(scoreDocs.doc)
+        print('path:' + doc.get("path") + ' name:' + doc.get("name") + " line:" + doc.get("line"))
+        results=[doc.get("name"), doc.get("line")]
+        return results
 
-"""
+
 if __name__ == '__main__':
-    lucene.initVM(vmargs=['-Djava.awt.headless=true'])
+    #lucene.initVM(vmargs=['-Djava.awt.headless=true'])
     print('lucene' + lucene.VERSION)
-    base_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
-    directory = SimpleFSDirectory(Paths.get(os.path.join(base_dir, INDEX_DIR)))
-    searcher = IndexSearcher(DirectoryReader.open(directory))
-    analyzer = StandardAnalyzer()
-    run(searcher, analyzer)
-    del searcher
-"""
+    s = searcher()
+    s.runQuery("Susan_Sarandon 8")
