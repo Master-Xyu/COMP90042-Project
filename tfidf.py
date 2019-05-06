@@ -24,7 +24,7 @@ def PrintDictionary(dictionary):
 #PrintDictionary(dictionary)
 
 def get_tfidf(claim, sentences):
-    stoplist = set('for a of the and to in \n . , ? ! \' \"'.split())
+    stoplist = set('for a of the and to in \n . , ? ! \' \" -lrb- -rrb- ;'.split())
 
     texts = [[word for word in sentence.lower().split() if word not in stoplist] for sentence in sentences]
     texts.append([word for word in claim.lower().split() if word not in stoplist])
@@ -40,7 +40,7 @@ def get_tfidf(claim, sentences):
     corpus_simi_matrix = similarities.MatrixSimilarity(corpus_lsi)
 
     PrintDictionary(dictionary)
-    print(claim.split())
+    print(claim.lower().split())
 
     test_bow = dictionary.doc2bow(word for word in claim.lower().split() if word not in stoplist)
     test_tfidf = tfidf_model[test_bow]
