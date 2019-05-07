@@ -1,43 +1,61 @@
 from SearchFiles import searcher
 from tfidf import get_tfidf
+from test import rebuildSentences
+from word2vec import Word2VecSim
 import json
 
 def term_query(item, querys):
     for query in querys:
         file = open("wiki-pages-text/" + query[0], encoding="utf8")
-        line_num = 0
-        while True:
+        for i in range(0,int(query[1])):
             line = file.readline()
-            if line_num == int(query[1]):
+        while line.split()[0] == item[0]:
+            if str(item[1]) == line.split()[1]:
                 file.close()
-                break
-            line_num += 1
-        if item in line:
-            return line
+                return line
+            line = file.readline()
+    '''
+    file = open("wiki-pages-text/wiki-096.txt", encoding="utf8")
+    i = 0
+    while True:
+        i+=1
+        line = file.readline()
+        if line.split()[0] == 'The_Ten_Commandments_-LRB-1956_film-RRB-':
+            print(i)
+    '''
     print("No matching line error.")
 
 if __name__ == '__main__':
+    s = searcher()
     with open("train.json",'r') as load_f:
         load_dict = json.load(load_f)
+        i = 0
+
         for key in load_dict.keys():
-            term = load_dict[key]
-            print(load_dict[key])
-            break
-        s = searcher()
-        text = []
-        for doc in term['evidence']:
-            results = s.runQuery(doc[0] + " " + str(doc[1]))
-            line = term_query(doc[0] + " " + str(doc[1]), results)
-            temp_line = line.split()
-            word = temp_line[0]
-            temp_line.pop(0)
-            temp_line.pop(0)
-            temp_line.insert(0, word.replace('_', ' '))
-            line = ''
-            for word in temp_line:
-                line += word + ' '
-            text.append(line)
-            #text.append(term_query(doc[0] + " " + str(doc[1]), results))
-        print(text)
-        sim = get_tfidf(term['claim'], text)
+            try:
+                term = load_dict[key]
+                text = []
+                if len(term['evidence']) == 0:
+                    continue
+                for doc in term['evidence']:
+                    results = s.runQuery(doc[0])
+
+                    line = term_query([doc[0],doc[1]], results)
+                    temp_line = line.split()
+                    word = temp_line[0]
+                    temp_line.pop(0)
+                    temp_line.pop(0)
+                    temp_line.insert(0, word.replace('_', ' '))
+                    line = ''
+                    for word in temp_line:
+                        line += word + ' '
+                    text.append(line)
+                newClaim, newSentence = rebuildSentences(term['claim'], text)
+                print(newClaim,';', newSentence, ';', Word2VecSim(newClaim, newSentence))
+            except Exception as e:
+                print ("Failed in loadjson:" + str(e))
+            i+=1
+            if i > 9:
+                break
+
 

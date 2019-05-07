@@ -35,10 +35,6 @@ class searcher:
         self.analyzer = StandardAnalyzer()
 
     def runQuery(self, claim):
-        #print("Hit enter with no input to quit.")
-        #command = raw_input("Query:")
-        #if command == '':
-        #    return
         #print("Searching for:" + command)
         query = QueryParser("contents", self.analyzer).parse(claim)
         scoreDocs = self.searcher.search(query, 10).scoreDocs
@@ -46,7 +42,7 @@ class searcher:
         results = []
         for scoreDoc in scoreDocs:
             doc = self.searcher.doc(scoreDoc.doc)
-            print('path:' + doc.get("path") + ' name:' + doc.get("name") + " line:" + doc.get("line"))
+            #print(' name:' + doc.get("name") + " line:" + doc.get("line"))
             results.append([doc.get("name"), doc.get("line")])
         return results
     def runTermQuery(self, claim):
@@ -64,4 +60,9 @@ if __name__ == '__main__':
     #lucene.initVM(vmargs=['-Djava.awt.headless=true'])
     print('lucene' + lucene.VERSION)
     s = searcher()
-    s.runQuery("Susan_Sarandon 8")
+    while True:
+        print("Hit enter with no input to quit.")
+        command = raw_input("Query:")
+        if command == '':
+            break
+        s.runQuery(command)

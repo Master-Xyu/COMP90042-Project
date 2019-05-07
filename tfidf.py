@@ -48,3 +48,20 @@ def get_tfidf(claim, sentences):
     test_simi = corpus_simi_matrix[test_lsi]
     print(list(enumerate(test_simi)))
     return list(enumerate(test_simi))
+
+def get_vector(claim, sentence):
+    stoplist = set('for a of the and to in \n . , ? ! \' \" -lrb- -rrb- ;'.split())
+
+    claimWords    = [word for word in sentence.lower().split() if word not in stoplist]
+    sentenceWords = [word for word in claim.lower().split() if word not in stoplist]
+    texts = [claimWords,sentenceWords]
+
+    dictionary  = corpora.Dictionary(texts)
+
+    claimBow    = dictionary.doc2bow(claimWords)
+    sentenceBow = dictionary.doc2bow(sentenceWords)
+
+    claimVector    = [bow[0] for bow in claimBow]
+    sentenceVector = [bow[0] for bow in sentenceBow]
+
+    return [claimVector, sentenceVector]
