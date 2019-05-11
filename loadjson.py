@@ -38,7 +38,7 @@ if __name__ == '__main__':
                 if len(term['evidence']) == 0:
                     continue
                 for doc in term['evidence']:
-                    results = s.runTermQuery(doc[0] + ' ' + doc[1])
+                    results = s.runTermQuery(doc[0] + ' ' + str(doc[1]))
                     line = term_query([doc[0],doc[1]], results)
                     temp_line = line.split()
                     word = temp_line[0]
