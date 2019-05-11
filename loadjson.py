@@ -33,6 +33,7 @@ if __name__ == '__main__':
 
         for key in load_dict.keys():
             try:
+                label = 0
                 term = load_dict[key]
                 text = []
                 if len(term['evidence']) == 0:
@@ -50,7 +51,13 @@ if __name__ == '__main__':
                         line += word + ' '
                     text.append(line)
                 newClaim, newSentence = rebuildSentences(term['claim'], text)
-                print(newClaim,';', newSentence, ';', Word2VecSim(newClaim, newSentence))
+                if term['label'] == "SUPPORTS":
+                    label = 1
+                elif term['label'] == "NOT ENOUGH INFO":
+                    label = 0
+                elif term['label'] == "REFUTES":
+                    label = -1
+                print(newClaim,';', newSentence, ';', Word2VecSim(newClaim, newSentence), label)
             except Exception as e:
                 print ("Failed in loadjson:" + str(e))
             i+=1
