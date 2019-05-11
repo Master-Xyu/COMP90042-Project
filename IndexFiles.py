@@ -63,21 +63,18 @@ def indexDocs(storeDir, analyzer):
                 file = open(path, encoding="utf8")
                 i = 0
                 #contents = file.read()
-                termName = ''
                 while True:
                     i+=1
                     line = file.readline()
                     doc = Document()
                     if not line:
                         break
-                    if termName != line.split()[0]:
-                        #print(termName)
-                        termName = line.split()[0]
-                        doc.add(Field("name", filename, t1))
-                        doc.add(Field("line", i, t1))
-                        doc.add(Field("contents", termName, t2))
-                    else:
-                        continue
+                    termName = line.split()[0]
+                    termName = line.split()[0] + ' ' + line.split()[1]
+                    doc.add(Field("name", filename, t1))
+                    doc.add(Field("line", i, t1))
+                    doc.add(Field("termName", termName, t2))
+                    doc.add(Field("content", line.replace(termName, ''), t2))
 
                     writer.addDocument(doc)
                 file.close()

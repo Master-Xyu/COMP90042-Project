@@ -36,7 +36,7 @@ class searcher:
 
     def runQuery(self, claim):
         #print("Searching for:" + command)
-        query = QueryParser("contents", self.analyzer).parse(claim)
+        query = QueryParser("content", self.analyzer).parse(claim)
         scoreDocs = self.searcher.search(query, 10).scoreDocs
         #print(len(scoreDocs) , "total matching documents.")
         results = []
@@ -46,13 +46,14 @@ class searcher:
             results.append([doc.get("name"), doc.get("line")])
         return results
     def runTermQuery(self, claim):
-        query = TermQuery(Term("contents", claim))
-        scoreDocs = self.searcher.search(query, 1)
-        #print(len(scoreDocs) , "total matching documents.")
-        print(scoreDocs.totalHits)
-        doc = self.searcher.doc(scoreDocs.doc)
-        print('path:' + doc.get("path") + ' name:' + doc.get("name") + " line:" + doc.get("line"))
-        results=[doc.get("name"), doc.get("line")]
+        query = QueryParser("termName", self.analyzer).parse(claim)
+        scoreDocs = self.searcher.search(query, 10).scoreDocs
+        # print(len(scoreDocs) , "total matching documents.")
+        results = []
+        for scoreDoc in scoreDocs:
+            doc = self.searcher.doc(scoreDoc.doc)
+            #print(' name:' + doc.get("name") + " line:" + doc.get("line"))
+            results.append([doc.get("name"), doc.get("line")])
         return results
 
 
