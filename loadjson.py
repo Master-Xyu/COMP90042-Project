@@ -27,12 +27,14 @@ def term_query(item, querys):
 
 if __name__ == '__main__':
     s = searcher()
+    output=[]
     with open("train.json",'r') as load_f:
         load_dict = json.load(load_f)
         i = 0
-
+        result={}
         for key in load_dict.keys():
             try:
+                result['key']=key
                 label = 0
                 term = load_dict[key]
                 text = []
@@ -57,6 +59,10 @@ if __name__ == '__main__':
                     label = 0
                 elif term['label'] == "REFUTES":
                     label = -1
+                result['label'] = label
+                result['length']=len(newClaim.split())
+                result['similarity']=Word2VecSim(newClaim, newSentence)
+                output.append(json.dumps(result))
                 print(newClaim,';', newSentence, ';', Word2VecSim(newClaim, newSentence), label)
             except Exception as e:
                 print ("Failed in loadjson:" + str(e))
@@ -64,4 +70,6 @@ if __name__ == '__main__':
             if i > 9:
                 break
 
-
+    with open('train_output.txt', 'w') as out_f:
+        for term in output:
+            out_f.write(term +'\n')
