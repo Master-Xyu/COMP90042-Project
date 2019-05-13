@@ -43,7 +43,7 @@ class searcher:
         for scoreDoc in scoreDocs:
             doc = self.searcher.doc(scoreDoc.doc)
             #print(' name:' + doc.get("name") + " line:" + doc.get("line"))
-            results.append([doc.get("name"), doc.get("line")])
+            results.append([doc.get("name"), doc.get("line"), doc.get('termName')])
         return results
     def runTermQuery(self, claim):
         query = QueryParser("termName", self.analyzer).parse(claim)

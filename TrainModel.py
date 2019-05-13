@@ -1,5 +1,7 @@
 from __future__ import absolute_import, division, print_function
 import tensorflow as tf
+from keras.models import load_model
+
 tf.logging.set_verbosity(tf.logging.ERROR)
 
 import numpy as np
@@ -12,7 +14,7 @@ for i,c in enumerate(celsius_q):
     print("{} degrees Celsius = {} degrees Fahrenheit".format(c, fahrenheit_a[i]))
 
 # 输入后连接了只有一个神经单元的隐藏层
-l0 = tf.keras.layers.Dense(units=1, input_shape=[1])
+l0 = tf.keras.layers.Dense(units=50, input_dim=2)
 
 # 将网络层添加到序列模型中
 model = tf.keras.Sequential([l0])
@@ -25,4 +27,5 @@ model.compile(loss='mean_squared_error',
 history = model.fit(celsius_q, fahrenheit_a, epochs=500, verbose=False)
 print("Finished training the model")
 
+model.save('vertification.h5')
 print(model.predict([100.0]))
