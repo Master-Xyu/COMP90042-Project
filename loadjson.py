@@ -11,18 +11,19 @@ if __name__ == '__main__':
     out_f = open('train_output.txt', 'w')
     with open("train.json",'r') as load_f:
         load_dict = json.load(load_f)
-        i = 0
-        result={}
+        m = 0
+        resultTerm={}
+        index = 0
+        output = {}
         for key in load_dict.keys():
-            output = []
             try:
-                result['key']=key
+                resultTerm['key']=key
                 label = 0
                 term = load_dict[key]
 
                 allEvidences = []
                 evidences = []
-                combinations = []
+                allCombinations = []
 
                 #find all real evidences
                 if len(term['evidence']) != 0:
@@ -33,18 +34,22 @@ if __name__ == '__main__':
                         evidences.append(line)
                         allEvidences.append(line)
 
+                if len(evidences) > 9:
+                    continue
                 #insert other evidences to fullfill 10 evidences
-                results = s.runQuery(term['claim'])
+                line = term['claim']
+                line = line.replace('\\', ' ')
+                line = line.replace('/', ' ')
+                results = s.runQuery(line)
                 for result in results:
                     if len(allEvidences) > 9:
                         break
+                    line = line_query(result)
                     if line in evidences:
                         continue
-                    allEvidences.append(rebuild_line(line_query(result)))
-
+                    allEvidences.append(rebuild_line(line))
                 for i in range(1, len(results)+1):
-                    combinations.append(list(combinations(allEvidences, i)))
-
+                    allCombinations.append(list(combinations(allEvidences, i)))
                 #fine the label of this term
                 if term['label'] == "SUPPORTS":
                     label = 1
@@ -53,31 +58,49 @@ if __name__ == '__main__':
                 elif term['label'] == "REFUTES":
                     label = -1
 
+                newClaim, realSentence = rebuildSentences(term['claim'], evidences)
+                resultTerm['label'] = label
+                resultTerm['length'] = len(newClaim.split())
+                resultTerm['similarity'] = Word2VecSim(newClaim, realSentence)
+                index += 1
+                output[index] = resultTerm
+                print(newClaim, ';', realSentence, ';', resultTerm['similarity'], resultTerm['label'])
+                resultTerm = {}
+
                 #for all combinations, get the simmilarity and the label
-                for com in combinations:
-                    text = []
-                    for line in com:
-                        text.append(rebuild_line(line))
-                    newClaim, newSentence = rebuildSentences(term['claim'], text)
-                    if set(evidences).issubset(set(allEvidences)):
-                        term_label = label
-                    else:
-                        term_label = 0
-                    result['label'] = term_label
-                    result['length']=len(newClaim.split())
-                    result['similarity']=Word2VecSim(newClaim, newSentence)
-                    output.append(json.dumps(result))
-                    print(newClaim,';', newSentence, ';', Word2VecSim(newClaim, newSentence), label)
+                preNewSentences = set()
+                for com1 in allCombinations:
+
+                    for com in com1:
+                        newClaim, newSentence = rebuildSentences(term['claim'], com)
+
+                        #discard duplicated state
+                        if newSentence not in preNewSentences:
+                            preNewSentences.add(newSentence)
+                        else:
+                            continue
+
+                        if set(evidences).issubset(set(com)) or newSentence == realSentence:
+                            term_label = label
+                        else:
+                            term_label = 0
+
+                        resultTerm['label'] = term_label
+                        resultTerm['length']=len(newClaim.split())
+                        resultTerm['similarity']=Word2VecSim(newClaim, newSentence)
+                        index += 1
+                        output[index] = resultTerm
+                        print(newClaim, ';', newSentence, ';', resultTerm['similarity'], resultTerm['label'])
+                        resultTerm = {}
 
             except Exception as e:
                 print ("Failed in loadjson:" + str(e))
 
-            for term in output:
-                out_f.write(term + '\n')
-
-            i += 1
-            if i > 9:
+            m += 1
+            if m > 200:
                 break
+
+        out_f.write(json.dumps(output))
             #TODO: verify whether it works and improve efficency
     '''
     with open('train_output.txt', 'w') as out_f:

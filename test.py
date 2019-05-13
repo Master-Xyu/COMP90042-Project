@@ -18,7 +18,7 @@ def lemmatize(word):
     return lemma
 
 def rebuildSentences(claim, sentences):
-    stoplist = set('for of the and to in with \n . , ? ! \' \" -lrb- -rrb- ;'.split())
+    stoplist = set('for of the and to in with on \n . , ? ! \' \" -lrb- -rrb- ;'.split())
 
     claimWords = nltk.word_tokenize(claim)
     claimWords = [lemmatize(word.lower()) for word in claimWords if word not in stoplist]

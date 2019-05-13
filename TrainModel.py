@@ -1,33 +1,55 @@
 from __future__ import absolute_import, division, print_function
 import tensorflow as tf
-from keras.models import load_model
+from keras.models import Sequential
+from keras.layers import Activation, Dense
+from keras.optimizers import RMSprop
+from keras.utils import np_utils
+import json
 
 tf.logging.set_verbosity(tf.logging.ERROR)
 
 import numpy as np
 
-# 输入的摄氏温度以及其对应的华氏温度，前面两个故意写错了
-celsius_q    = np.array([-40, -10,  0,  8, 15, 22,  38],  dtype=float)
-fahrenheit_a = np.array([-40,  14, 32, 46, 59, 72, 100],  dtype=float)
+file = open('train_output.txt', 'r')
+js = file.read()
+dic = json.loads(js)
 
-for i,c in enumerate(celsius_q):
-    print("{} degrees Celsius = {} degrees Fahrenheit".format(c, fahrenheit_a[i]))
+input = []
+output = []
+for key in dic.keys():
+    input.append([int(dic[key]['length'])/100, float(dic[key]['similarity'])])
+    output.append(float(dic[key]['label']))
 
-# 输入后连接了只有一个神经单元的隐藏层
-l0 = tf.keras.layers.Dense(units=50, input_dim=2)
+train_input    = np.array(input,  dtype=float)
+train_output = np.array(output,  dtype=float)
 
-# 将网络层添加到序列模型中
-model = tf.keras.Sequential([l0])
+train_output=np_utils.to_categorical(train_output, 3)
+
+model=Sequential([
+    Dense(input_dim=2,units=64),
+    Activation('relu'),
+    Dense(units=64),
+    Activation('relu'),
+    Dense(units=64),
+    Activation('relu'),
+    Dense(3),
+    Activation('softmax')
+])
+
+rmsprop=RMSprop(lr=0.001,rho=0.9,epsilon=1e-08,decay=0.0)
 
 # 编译神经网络模型
 model.compile(loss='mean_squared_error',
-              optimizer=tf.keras.optimizers.Adam(0.1))
+              optimizer=rmsprop,
+              metrics=['accuracy'])
 
 # 训练模型
-history = model.fit(celsius_q, fahrenheit_a, epochs=500, verbose=False)
+print('Training-------------------')
+model.fit(train_input,train_output,nb_epoch=100,batch_size=32)
 print("Finished training the model")
 
 model.save('vertification.h5')
-print(model.predict([100.0]))
+
+print(model.predict(np.array([[0.1, 0.9666593478936601]],  dtype=float)))
 
 #TODO: build a simple model based on codes above

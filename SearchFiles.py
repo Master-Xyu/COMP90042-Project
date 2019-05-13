@@ -48,7 +48,7 @@ class searcher:
     def runTermQuery(self, claim):
         query = QueryParser("termName", self.analyzer).parse(claim)
         scoreDocs = self.searcher.search(query, 10).scoreDocs
-        # print(len(scoreDocs) , "total matching documents.")
+        #print(len(scoreDocs) , "total matching documents.")
         results = []
         for scoreDoc in scoreDocs:
             doc = self.searcher.doc(scoreDoc.doc)
