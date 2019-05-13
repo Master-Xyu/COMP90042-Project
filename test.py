@@ -69,12 +69,6 @@ def rebuildSentences(claim, sentences):
         newClaim += word + ' '
     return newClaim, newSentence
 
-def getLinefromFile(result):
-    file = open("wiki-pages-text/" + result[0], encoding="utf8")
-    for i in range(0, int(query[1])):
-        line = file.readline()
-    return line
-
 def term_query(item, querys):
     for query in querys:
         file = open("wiki-pages-text/" + query[0], encoding="utf8")
@@ -85,28 +79,32 @@ def term_query(item, querys):
                 file.close()
                 return line
             line = file.readline()
-    '''
-    file = open("wiki-pages-text/wiki-096.txt", encoding="utf8")
-    i = 0
-    while True:
-        i+=1
-        line = file.readline()
-        if line.split()[0] == 'The_Ten_Commandments_-LRB-1956_film-RRB-':
-            print(i)
-    '''
-    print("No matching line error.")
+    print("No matching error!")
 
-def removePrefix(sentence):
-    line = sentence
+def line_query(query):
+    try:
+        file = open("wiki-pages-text/" + query[0], encoding="utf8")
+        for i in range(0, int(query[1])):
+            line = file.readline()
+        return line
+    except Exception as e:
+        print ("Failed in line_query:" + str(e))
+
+def rebuild_line(line):
     temp_line = line.split()
-    word = temp_line[0]
+    #word = temp_line[0]
     temp_line.pop(0)
     temp_line.pop(0)
-    temp_line.insert(0, word.replace('_', ' '))
+    #temp_line.insert(0, word.replace('_', ' '))
     line = ''
     for word in temp_line:
         line += word + ' '
+    return line
 
+def get_prefix(line):
+    prefix = []
+    prefix.append(line.split()[0], line.split()[1])
+    return prefix
 if __name__ == '__main__':
     newClaim, newSentence = rebuildSentences(sentence1, sentence2)
     print(Word2VecSim(newClaim, newSentence))

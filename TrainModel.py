@@ -29,3 +29,5 @@ print("Finished training the model")
 
 model.save('vertification.h5')
 print(model.predict([100.0]))
+
+#TODO: build a simple model based on codes above

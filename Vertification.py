@@ -3,64 +3,39 @@ from SearchFiles import searcher
 from __future__ import absolute_import, division, print_function
 import tensorflow as tf
 from keras.models import load_model
-from test import getLinefromFile, removePrefix, rebuildSentences
+from test import line_query, rebuild_line, rebuildSentences, get_prefix
+from itertools import combinations
+from word2vec import Word2VecSim
 
 def vertify(claim, model):
     s = searcher()
     results = s.runQuery(claim)
-    sentences = []
+    allEvidences = []
+    inputs = []
+
+    #find 10 evidences by querying the claim
     for result in results:
-        sentence = getLinefromFile()
-        sentences.append(removePrefix(sentence))
-    allEvidence = []
+        sentence = line_query(result)
+        allEvidences.append(sentence)
+    results = []
     newClaim, newEvidence = rebuildSentences(claim,[])
     lenofNewClaim = len(newClaim.split())
-    #1 sentense(s)
-    for i1 in range(0,10):
-        allEvidence.append([[i1], model.predict([lenofNewClaim, Word2VecSim(newClaim, sentences[i1])])])
-        # 2 sentense(s)
-        for i2 in range(i1,10):
-            newEvidence = [sentences[i1],sentences[i2]]
-            allEvidence.append([[i1, i2], model.predict([lenofNewClaim, Word2VecSim(newClaim, newEvidence)])])
-            # 3 sentense(s)
-            for i3 in range(i2,10):
-                newEvidence = [sentences[i1], sentences[i2], sentences[i3]]
-                allEvidence.append([[i1, i2, i3], model.predict([lenofNewClaim, Word2VecSim(newClaim, newEvidence)])])
-                # 4 sentense(s)
-                for i4 in range(i3, 10):
-                    newEvidence = [sentences[i1], sentences[i2], sentences[i3], sentences[i4]]
-                    allEvidence.append(
-                        [[i1, i2, i3, i4], model.predict([lenofNewClaim, Word2VecSim(newClaim, newEvidence)])])
-                    # 5 sentense(s)
-                    for i5 in range(i4, 10):
-                        newEvidence = [sentences[i1], sentences[i2], sentences[i3], sentences[i4], sentences[i5]]
-                        allEvidence.append(
-                            [[i1, i2, i3, i4, i5], model.predict([lenofNewClaim, Word2VecSim(newClaim, newEvidence)])])
-                    # 6 sentense(s)
-                    newEvidence = [sentences[i] for i in range(0,10) if i != i1 and i != i2 and i != i3 and i != i4]
-                    allEvidence.append(
-                        [[i for i in range(0,10) if i != i1 and i != i2 and i != i3 and i != i4],
-                         model.predict([lenofNewClaim, Word2VecSim(newClaim, newEvidence)])])
-                # 7 sentense(s)
-                newEvidence = [sentences[i] for i in range(0, 10) if i != i1 and i != i2 and i != i3]
-                allEvidence.append(
-                    [[i for i in range(0, 10) if i != i1 and i != i2 and i != i3],
-                     model.predict([lenofNewClaim, Word2VecSim(newClaim, newEvidence)])])
-            # 8 sentense(s)
-            newEvidence = [sentences[i] for i in range(0, 10) if i != i1 and i != i2]
-            allEvidence.append(
-                [[i for i in range(0, 10) if i != i1 and i != i2],
-                 model.predict([lenofNewClaim, Word2VecSim(newClaim, newEvidence)])])
-        # 9 sentense(s)
-        newEvidence = [sentences[i] for i in range(0, 10) if i != i1]
-        allEvidence.append(
-            [[i for i in range(0, 10) if i != i1],
-             model.predict([lenofNewClaim, Word2VecSim(newClaim, newEvidence)])])
-    # 10 sentense(s)
-    newEvidence = list(sentences)
-    allEvidence.append(
-        [[i for i in range(0, 10)],
-         model.predict([lenofNewClaim, Word2VecSim(newClaim, newEvidence)])])
+
+    #get all input circumstances
+    for i in range(0, len(allEvidences)+1):
+        inputs.append(list(combinations(allEvidences, i)))
+
+    #get the results of all inputs
+    for term in inputs:
+        result = [[]]
+        text = ''
+        for line in term:
+            result[0].append(get_prefix(line))
+            text += rebuild_line(line)
+        newClaim, newEvidence = rebuildSentences(claim, [])
+        result.append(model.predict([lenofNewClaim, Word2VecSim(newClaim, newEvidence)]))
+
+    #TODO: processing all results and return evidences and label
 
 if __name__ == '__main__':
     model = load_model('vertification.h5')
