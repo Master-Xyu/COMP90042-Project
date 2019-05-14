@@ -69,6 +69,7 @@ if __name__ == '__main__':
 
                 #for all combinations, get the simmilarity and the label
                 preNewSentences = set()
+                numOfNoEvidence = 0
                 for com1 in allCombinations:
 
                     for com in com1:
@@ -85,6 +86,12 @@ if __name__ == '__main__':
                         else:
                             term_label = 0
 
+                        #control the num of no evidence combinations
+                        if term_label == 0:
+                            numOfNoEvidence+=1
+                            if numOfNoEvidence > 4:
+                                continue
+
                         resultTerm['label'] = term_label
                         resultTerm['length']=len(newClaim.split())
                         resultTerm['similarity']=Word2VecSim(newClaim, newSentence)
@@ -97,7 +104,7 @@ if __name__ == '__main__':
                 print ("Failed in loadjson:" + str(e))
 
             m += 1
-            if m > 200:
+            if m > 2000:
                 break
 
         out_f.write(json.dumps(output))

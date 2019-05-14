@@ -26,11 +26,11 @@ train_output = np.array(output,  dtype=float)
 train_output=np_utils.to_categorical(train_output, 3)
 
 model=Sequential([
-    Dense(input_dim=2,units=64),
+    Dense(input_dim=2,units=128),
     Activation('relu'),
     Dense(units=64),
     Activation('relu'),
-    Dense(units=64),
+    Dense(units=32),
     Activation('relu'),
     Dense(3),
     Activation('softmax')
@@ -52,4 +52,3 @@ model.save('vertification.h5')
 
 print(model.predict(np.array([[0.1, 0.9666593478936601]],  dtype=float)))
 
-#TODO: build a simple model based on codes above
