@@ -1,9 +1,9 @@
 from SearchFiles import searcher
 from tfidf import get_tfidf
-from test import rebuildSentences
+from tools import rebuildSentences
 from word2vec import Word2VecSim
 import json
-from test import term_query, line_query, rebuild_line
+from tools import term_query, line_query, rebuild_line
 from itertools import combinations
 
 if __name__ == '__main__':
@@ -23,19 +23,21 @@ if __name__ == '__main__':
 
                 allEvidences = []
                 evidences = []
-                allCombinations = []
+                #allCombinations = []
 
                 #find all real evidences
                 if len(term['evidence']) != 0:
                     for doc in term['evidence']:
                         results = s.runTermQuery(doc[0] + ' ' + str(doc[1]))
                         line = term_query([doc[0],doc[1]], results)
-                        line = rebuild_line(line)
+                        #line = rebuild_line(line)
                         evidences.append(line)
                         allEvidences.append(line)
 
                 if len(evidences) > 9:
                     continue
+
+                '''
                 #insert other evidences to fullfill 10 evidences
                 line = term['claim']
                 line = line.replace('\\', ' ')
@@ -50,6 +52,8 @@ if __name__ == '__main__':
                     allEvidences.append(rebuild_line(line))
                 for i in range(1, len(results)+1):
                     allCombinations.append(list(combinations(allEvidences, i)))
+                '''
+
                 #fine the label of this term
                 if term['label'] == "SUPPORTS":
                     label = 1
@@ -57,6 +61,10 @@ if __name__ == '__main__':
                     label = 0
                 elif term['label'] == "REFUTES":
                     label = -1
+
+                if label ==0:
+                    results = s.runQuery(term['claim'])
+                    evidences.append(line_query(results[0]))
 
                 newClaim, realSentence = rebuildSentences(term['claim'], evidences)
                 resultTerm['label'] = label
@@ -67,6 +75,7 @@ if __name__ == '__main__':
                 print(newClaim, ';', realSentence, ';', resultTerm['similarity'], resultTerm['label'])
                 resultTerm = {}
 
+                '''
                 #for all combinations, get the simmilarity and the label
                 preNewSentences = set()
                 numOfNoEvidence = 0
@@ -88,6 +97,8 @@ if __name__ == '__main__':
 
                         #control the num of no evidence combinations
                         if term_label == 0:
+                            if label != 0:
+                                continue
                             numOfNoEvidence+=1
                             if numOfNoEvidence > 4:
                                 continue
@@ -99,7 +110,7 @@ if __name__ == '__main__':
                         output[index] = resultTerm
                         print(newClaim, ';', newSentence, ';', resultTerm['similarity'], resultTerm['label'])
                         resultTerm = {}
-
+                '''
             except Exception as e:
                 print ("Failed in loadjson:" + str(e))
 

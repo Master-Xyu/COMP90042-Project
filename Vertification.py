@@ -1,7 +1,7 @@
 from __future__ import absolute_import, division, print_function
 import tensorflow as tf
 from keras.models import load_model
-from test import line_query, rebuild_line, rebuildSentences, get_prefix
+from tools import line_query, rebuild_line, rebuildSentences, get_prefix
 from itertools import combinations
 from word2vec import Word2VecSim
 from collections import Counter
@@ -15,9 +15,9 @@ def vertify(claim, model, s):
     allEvidences = []
     inputs = []
 
-    #find 10 evidences by querying the claim
-    for result in results:
-        sentence = line_query(result)
+    #find i evidences by querying the claim
+    for i in range(0,6):
+        sentence = line_query(results[i])
         allEvidences.append(sentence)
     results = []
     newClaim, newEvidence = rebuildSentences(claim,[])
@@ -43,8 +43,10 @@ def vertify(claim, model, s):
             input_array.append([lenofNewClaim / 100,  Word2VecSim(newClaim, newEvidence)])
 
     predictResults = model.predict(np.array(input_array,  dtype=float))
-    print(predictResults)
-
+    '''
+    for result in list(predictResults):
+        print(result)
+    '''
     #decide label based on support or refute is larger, if none of them then no evidence
     for predictResult in predictResults:
         if predictResult[0] > predictResult[1] and predictResult[0] > predictResult[2]:
@@ -91,15 +93,18 @@ if __name__ == '__main__':
     load_f.close()
     m = 0
     s = searcher()
+    right = 0
     for key in load_dict.keys():
         #try:
         label = 0
         term = load_dict[key]
         label, evidence = vertify(term['claim'], model, s)
         print(term['claim'], ';', term['evidence'], ';', term['label'], ';', label, ';', evidence)
-
+        if label == term['label']:
+            right += 1
         m+=1
-        if m > 10:
+        if m > 99:
+            print("Precision = " + str(right/100))
             break
 
         #except Exception as e:

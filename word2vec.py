@@ -9,7 +9,7 @@ sentence2 = 'nikolaj coster-waldau work fox broadcast company'
 
 def Word2VecSim(claim, sentence):
 
-    word2vec_model = Word2Vec(size=100, min_count=0, window=10)
+    word2vec_model = Word2Vec(size=10, min_count=0, window=10)
     if sentence == '':
         return 0
     reader = [claim, sentence]

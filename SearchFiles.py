@@ -14,7 +14,7 @@ from org.apache.lucene.search import TermQuery
 from org.apache.lucene.store import SimpleFSDirectory
 from org.apache.lucene.search import IndexSearcher
 
-from test import line_query
+from tools import line_query
 
 
 """
@@ -48,7 +48,7 @@ class searcher:
             results.append([doc.get("name"), doc.get("line"), doc.get('termName')])
         '''
         for result in results:
-            print(line_query(result))
+           print(line_query(result))
         '''
         return results
 
@@ -62,6 +62,10 @@ class searcher:
             doc = self.searcher.doc(scoreDoc.doc)
             #print(' name:' + doc.get("name") + " line:" + doc.get("line"))
             results.append([doc.get("name"), doc.get("line")])
+        '''
+        for result in results:
+            print(line_query(result))
+        '''
         return results
 
 
@@ -74,4 +78,4 @@ if __name__ == '__main__':
         command = raw_input("Query:")
         if command == '':
             break
-        s.runQuery(command)
+        s.runTermQuery("Roman_Atwood 3")

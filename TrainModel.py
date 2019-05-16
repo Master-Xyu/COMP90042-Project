@@ -20,17 +20,13 @@ for key in dic.keys():
     input.append([int(dic[key]['length'])/100, float(dic[key]['similarity'])])
     output.append(float(dic[key]['label']))
 
-train_input    = np.array(input,  dtype=float)
+train_input  = np.array(input,  dtype=float)
 train_output = np.array(output,  dtype=float)
 
 train_output=np_utils.to_categorical(train_output, 3)
 
 model=Sequential([
     Dense(input_dim=2,units=128),
-    Activation('relu'),
-    Dense(units=64),
-    Activation('relu'),
-    Dense(units=32),
     Activation('relu'),
     Dense(3),
     Activation('softmax')
@@ -45,10 +41,9 @@ model.compile(loss='mean_squared_error',
 
 # 训练模型
 print('Training-------------------')
-model.fit(train_input,train_output,nb_epoch=100,batch_size=32)
+model.fit(train_input,train_output,nb_epoch=1000,batch_size=64)
 print("Finished training the model")
 
 model.save('vertification.h5')
 
-print(model.predict(np.array([[0.1, 0.9666593478936601]],  dtype=float)))
 
