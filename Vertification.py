@@ -16,7 +16,7 @@ def vertify(claim, model, s):
     inputs = []
 
     #find i evidences by querying the claim
-    for i in range(0,6):
+    for i in range(0,5):
         sentence = line_query(results[i])
         allEvidences.append(sentence)
     results = []
@@ -73,14 +73,29 @@ def vertify(claim, model, s):
         return "NOT ENOUGH INFO", []
 
     shortest_input = -1
+    highest_score = 0.0
     shortest_length = 100
     for i in range(0, len(predictions)):
         if predictions[i] == label:
-            if len(input_evidences[i]) < shortest_length:
-                shortest_input = i
-                shortest_length = len(input_evidences[i])
-
-    if label ==1:
+            if label == 1:
+                if predictResults[i][1] > highest_score:
+                    shortest_input = i
+                    shortest_length = len(input_evidences[i])
+                    highest_score = predictResults[i][1]
+                elif predictResults[i][1] == highest_score:
+                    if len(input_evidences[i]) < shortest_length:
+                        shortest_input = i
+                        shortest_length = len(input_evidences[i])
+            else:
+                if predictResults[i][2] > highest_score:
+                    shortest_input = i
+                    shortest_length = len(input_evidences[i])
+                    highest_score = predictResults[i][2]
+                elif predictResults[i][2] == highest_score:
+                    if len(input_evidences[i]) < shortest_length:
+                        shortest_input = i
+                        shortest_length = len(input_evidences[i])
+    if label == 1:
         return "SUPPORTS", input_evidences[shortest_input]
     else:
         return "REFUTES", input_evidences[shortest_input]
@@ -88,24 +103,37 @@ def vertify(claim, model, s):
 
 if __name__ == '__main__':
     model = load_model('vertification.h5')
-    load_f  = open("devset.json", 'r')
+    load_f  = open("test-unlabelled.json", 'r')
+    out_f = open('testoutput.json', 'w')
     load_dict = json.load(load_f)
+    out_dict = {}
     load_f.close()
     m = 0
     s = searcher()
     right = 0
     for key in load_dict.keys():
-        #try:
-        label = 0
-        term = load_dict[key]
-        label, evidence = vertify(term['claim'], model, s)
-        print(term['claim'], ';', term['evidence'], ';', term['label'], ';', label, ';', evidence)
-        if label == term['label']:
-            right += 1
-        m+=1
-        if m > 99:
-            print("Precision = " + str(right/100))
-            break
+        try:
+            label = 0
+            term = load_dict[key]
+            label, evidence = vertify(term['claim'], model, s)
+            #print(term['claim'], ';', term['evidence'], ';', term['label'], ';', label, ';', evidence)
+            print(term['claim'], ';', label, ';', evidence)
+            out_dict[key] = {}
+            out_dict[key]['claim'] = term['claim']
+            out_dict[key]['label'] = label
+            out_dict[key]['evidence'] = evidence
+            #if label == term['label']:
+                #right += 1
+            #m+=1
+            #if m > 4:
+                #print("Precision = " + str(right/5))
+                #break
 
-        #except Exception as e:
-            #print ("Failed in vertification:" + str(e))
+        except Exception as e:
+            print("Failed in vertification:" + str(e))
+            out_dict[key] = {}
+            out_dict[key]['claim']    = term['claim']
+            out_dict[key]['label']    = "NOT ENOUGH INFO"
+            out_dict[key]['evidence'] = []
+
+    out_f.write(json.dumps(out_dict))

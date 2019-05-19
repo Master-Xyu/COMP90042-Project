@@ -127,9 +127,7 @@ def rebuild_line(line):
     return line
 
 def get_prefix(line):
-    prefix = []
-    prefix.append([line.split()[0], line.split()[1]])
-    return prefix
+    return [line.split()[0], line.split()[1]]
 if __name__ == '__main__':
     newClaim, newSentence = rebuildSentences(sentence1, sentence2)
     print(newClaim)
