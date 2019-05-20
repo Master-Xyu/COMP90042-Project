@@ -27,7 +27,7 @@ train_output=np_utils.to_categorical(train_output, 3)
 
 model=Sequential([
     Dense(input_dim=2,units=128),
-    Activation('relu'),
+    Activation('tanh'),
     Dense(3),
     Activation('softmax')
 ])

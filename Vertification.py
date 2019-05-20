@@ -76,7 +76,9 @@ def vertify(claim, model, s):
     shortest_input = -1
     highest_score = 0.0
     shortest_length = 100
+
     for i in range(0, len(predictions)):
+
         if predictions[i] == label:
             if label == 1:
                 if predictResults[i][1] > highest_score:
@@ -112,8 +114,14 @@ if __name__ == '__main__':
     m = 0
     s = searcher()
     right = 0
+
+    amount = 0
+    progress = -1
+    
     for key in load_dict.keys():
         try:
+            progress += 1
+            print(str(progress) + '/' + str(progress))
             label = 0
             term = load_dict[key]
             label, evidence = vertify(term['claim'], model, s)
@@ -125,10 +133,12 @@ if __name__ == '__main__':
             out_dict[key]['evidence'] = evidence
             #if label == term['label']:
                 #right += 1
+            '''
             m+=1
             if m > 4:
                 print("Precision = " + str(right/5))
                 break
+            '''
 
         except Exception as e:
             print("Failed in vertification:" + str(e))
