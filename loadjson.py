@@ -34,7 +34,7 @@ if __name__ == '__main__':
                         evidences.append(line)
                         allEvidences.append(line)
 
-                if len(evidences) > 9:
+                if len(evidences) > 5:
                     continue
 
                 '''
@@ -111,11 +111,12 @@ if __name__ == '__main__':
                         print(newClaim, ';', newSentence, ';', resultTerm['similarity'], resultTerm['label'])
                         resultTerm = {}
                 '''
+                print(str(m) + '/4000')
             except Exception as e:
                 print ("Failed in loadjson:" + str(e))
 
             m += 1
-            if m > 2000:
+            if m > 4000:
                 break
 
         out_f.write(json.dumps(output))

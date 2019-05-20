@@ -36,7 +36,8 @@ def vertify(claim, model, s):
             result = []
             text = []
             for line in term:
-                result.append(get_prefix(line))
+                prefix = get_prefix(line)
+                result.append([prefix[0], int(prefix[1])])
                 text.append(rebuild_line(line))
             input_evidences.append(result)
             newClaim, newEvidence = rebuildSentences(claim, text)
@@ -124,10 +125,10 @@ if __name__ == '__main__':
             out_dict[key]['evidence'] = evidence
             #if label == term['label']:
                 #right += 1
-            #m+=1
-            #if m > 4:
-                #print("Precision = " + str(right/5))
-                #break
+            m+=1
+            if m > 4:
+                print("Precision = " + str(right/5))
+                break
 
         except Exception as e:
             print("Failed in vertification:" + str(e))

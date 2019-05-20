@@ -18,7 +18,7 @@ def lemmatize(word):
     return lemma
 
 def rebuildSentences(claim, sentences):
-    stoplist = set('for of the and to in with on \n . , ? ! \' \" -lrb- -rrb- ;'.split())
+    stoplist = set('for of the and to in with on \n . , ? ! \' \" -lrb- -rrb- ( ) ;'.split())
 
     claimWords = nltk.word_tokenize(claim)
     claimWords = [lemmatize(word.lower()) for word in claimWords if word not in stoplist]
@@ -79,6 +79,9 @@ def rebuildSentences(claim, sentences):
 
     #insert new word to make the new sentense have same length with claim
     if len(nltk.word_tokenize(newSentence)) < len(claimWords):
+        for i in range(0,len(claimWords) - len(nltk.word_tokenize(newSentence))):
+            newSentence += " awwww"
+        '''
         for sentence in sentences:
             for word in nltk.word_tokenize(sentence):
                 if word.lower() in stoplist:
@@ -91,7 +94,7 @@ def rebuildSentences(claim, sentences):
                         newSentence += insertedWord + ' '
                         if(len(nltk.word_tokenize(newSentence)) == len(claimWords)):
                             return newClaim, newSentence
-
+        '''
     return newClaim, newSentence
 
 def term_query(item, querys):
