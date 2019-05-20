@@ -1,13 +1,14 @@
 from SearchFiles import searcher
 from tfidf import get_tfidf
 from tools import rebuildSentences
-from word2vec import Word2VecSim
+from word2vec import Word2VecModel
 import json
 from tools import term_query, line_query, rebuild_line
 from itertools import combinations
 
 if __name__ == '__main__':
     s = searcher()
+    word2vec = Word2VecModel()
     out_f = open('train_output.txt', 'w')
     with open("train.json",'r') as load_f:
         load_dict = json.load(load_f)
@@ -69,7 +70,7 @@ if __name__ == '__main__':
                 newClaim, realSentence = rebuildSentences(term['claim'], evidences)
                 resultTerm['label'] = label
                 resultTerm['length'] = len(newClaim.split())
-                resultTerm['similarity'] = Word2VecSim(newClaim, realSentence)
+                resultTerm['similarity'] = word2vec.Word2VecSim(newClaim, realSentence)
                 index += 1
                 output[index] = resultTerm
                 print(newClaim, ';', realSentence, ';', resultTerm['similarity'], resultTerm['label'])
@@ -105,7 +106,7 @@ if __name__ == '__main__':
 
                         resultTerm['label'] = term_label
                         resultTerm['length']=len(newClaim.split())
-                        resultTerm['similarity']=Word2VecSim(newClaim, newSentence)
+                        resultTerm['similarity']=Word2VecModel.Word2VecSim(newClaim, newSentence)
                         index += 1
                         output[index] = resultTerm
                         print(newClaim, ';', newSentence, ';', resultTerm['similarity'], resultTerm['label'])

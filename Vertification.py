@@ -3,13 +3,14 @@ import tensorflow as tf
 from keras.models import load_model
 from tools import line_query, rebuild_line, rebuildSentences, get_prefix
 from itertools import combinations
-from word2vec import Word2VecSim
+from word2vec import Word2VecModel
 from collections import Counter
 import json
 from SearchFiles import searcher
 import numpy as np
+from datetime import datetime
 
-def vertify(claim, model, s):
+def vertify(claim, model, s, word2vec):
 
     results = s.runQuery(claim)
     allEvidences = []
@@ -41,7 +42,7 @@ def vertify(claim, model, s):
                 text.append(rebuild_line(line))
             input_evidences.append(result)
             newClaim, newEvidence = rebuildSentences(claim, text)
-            input_array.append([lenofNewClaim / 100,  Word2VecSim(newClaim, newEvidence)])
+            input_array.append([lenofNewClaim / 100,  word2vec.Word2VecSim(newClaim, newEvidence)])
 
     predictResults = model.predict(np.array(input_array,  dtype=float))
     '''
@@ -117,14 +118,16 @@ if __name__ == '__main__':
 
     amount = 0
     progress = -1
-    
+
+    word2vec = Word2VecModel()
+    start = datetime.now()
     for key in load_dict.keys():
         try:
             progress += 1
-            print(str(progress) + '/' + str(progress))
+            print(str(100 * progress/14996)[:3] + '%  ' + str(progress) + '/14996')
             label = 0
             term = load_dict[key]
-            label, evidence = vertify(term['claim'], model, s)
+            label, evidence = vertify(term['claim'], model, s, word2vec)
             #print(term['claim'], ';', term['evidence'], ';', term['label'], ';', label, ';', evidence)
             print(term['claim'], ';', label, ';', evidence)
             out_dict[key] = {}
@@ -147,4 +150,5 @@ if __name__ == '__main__':
             out_dict[key]['label']    = "NOT ENOUGH INFO"
             out_dict[key]['evidence'] = []
 
+    print(datetime.now() - start)
     out_f.write(json.dumps(out_dict))

@@ -41,7 +41,7 @@ model.compile(loss='mean_squared_error',
 
 # 训练模型
 print('Training-------------------')
-model.fit(train_input,train_output,nb_epoch=1000,batch_size=64)
+model.fit(train_input,train_output,nb_epoch=200,batch_size=64)
 print("Finished training the model")
 
 model.save('vertification.h5')

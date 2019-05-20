@@ -57,7 +57,7 @@ def indexDocs(storeDir, analyzer):
         for filename in filenames:
             if not filename.endswith('.txt'):
                 continue
-            print ("adding" + filename)
+            print ("adding " + filename)
             try:
                 path = os.path.join(root, filename)
                 file = open(path, encoding="utf8")

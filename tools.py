@@ -1,7 +1,7 @@
 from tfidf import get_tfidf
 import nltk
 from nltk.corpus import wordnet
-from word2vec import Word2VecSim
+from word2vec import Word2VecModel
 
 sentence1 = "Roman Atwood is a content creator."
 sentence2 = ['Roman_Atwood 0 Roman Bernard Atwood -LRB- born May 28 , 1983 -RRB- is an American YouTube personality , comedian , vlogger and pranker .', 'Roman_Atwood 3 He also has another YouTube channel called `` RomanAtwood '' , where he posts pranks .']
@@ -131,11 +131,11 @@ def rebuild_line(line):
 
 def get_prefix(line):
     return [line.split()[0], line.split()[1]]
+
 if __name__ == '__main__':
     newClaim, newSentence = rebuildSentences(sentence1, sentence2)
     print(newClaim)
     print(newSentence)
-    print(Word2VecSim(newClaim, newSentence))
 
 '''
 get_tfidf(sentence1, newSentences)
