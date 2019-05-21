@@ -124,7 +124,7 @@ if __name__ == '__main__':
     for key in load_dict.keys():
         try:
             progress += 1
-            print(str(100 * progress/14996)[:3] + '%  ' + str(progress) + '/14996')
+            print(str(100 * round(progress/14996, 3)) + '%  ' + str(progress) + '/14996')
             label = 0
             term = load_dict[key]
             label, evidence = vertify(term['claim'], model, s, word2vec)
@@ -147,7 +147,7 @@ if __name__ == '__main__':
             print("Failed in vertification:" + str(e))
             out_dict[key] = {}
             out_dict[key]['claim']    = term['claim']
-            out_dict[key]['label']    = "NOT ENOUGH INFO"
+            out_dict[key]['label']    = "REFUTES"
             out_dict[key]['evidence'] = []
 
     print(datetime.now() - start)

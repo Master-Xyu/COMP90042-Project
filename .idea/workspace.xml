@@ -2,16 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="735699ba-bc88-4610-a1d8-0a3000a65c86" name="Default Changelist" comment="new version of index&#10;重写了index的逻辑，现在可以用searcher的runTermQuery搜索名字，为了方便为之后的claim搜索evidence。">
-      <change afterPath="$PROJECT_DIR$/BuildW2VModel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IndexFiles.py" beforeDir="false" afterPath="$PROJECT_DIR$/IndexFiles.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TrainModel.py" beforeDir="false" afterPath="$PROJECT_DIR$/TrainModel.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Vertification.py" beforeDir="false" afterPath="$PROJECT_DIR$/Vertification.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/loadjson.py" beforeDir="false" afterPath="$PROJECT_DIR$/loadjson.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools.py" beforeDir="false" afterPath="$PROJECT_DIR$/tools.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/train_output.txt" beforeDir="false" afterPath="$PROJECT_DIR$/train_output.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vertification.h5" beforeDir="false" afterPath="$PROJECT_DIR$/vertification.h5" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/word2vec.py" beforeDir="false" afterPath="$PROJECT_DIR$/word2vec.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -69,8 +64,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/loadjson.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="80" column="39" lean-forward="true" selection-start-line="80" selection-start-column="39" selection-end-line="80" selection-end-column="39" />
+            <state relative-caret-position="298">
+              <caret line="142" column="39" lean-forward="true" selection-start-line="142" selection-start-column="39" selection-end-line="142" selection-end-column="39" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
               </folding>
@@ -90,8 +85,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/TrainModel.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="43" column="47" selection-start-line="43" selection-start-column="47" selection-end-line="43" selection-end-column="47" />
+            <state relative-caret-position="43">
+              <caret line="48" column="17" selection-start-line="48" selection-start-column="17" selection-end-line="48" selection-end-column="17" />
               <folding>
                 <element signature="e#0#64#0" expanded="true" />
               </folding>
@@ -102,10 +97,22 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Vertification.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-272">
-              <caret line="44" column="74" selection-start-line="44" selection-start-column="63" selection-end-line="44" selection-end-column="74" />
+            <state relative-caret-position="162">
+              <caret line="126" column="53" selection-start-line="126" selection-start-column="53" selection-end-line="126" selection-end-column="53" />
               <folding>
                 <element signature="e#0#64#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/score.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="5" column="33" lean-forward="true" selection-start-line="5" selection-start-column="33" selection-end-line="5" selection-end-column="33" />
+              <folding>
+                <element signature="e#0#11#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -157,6 +164,7 @@
       <find>word2vec_model</find>
       <find>word2vecsim</find>
       <find>Word2VecSim</find>
+      <find>NoOfNe</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -176,12 +184,12 @@
         <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/SearchFiles.py" />
         <option value="$PROJECT_DIR$/IndexFiles.py" />
-        <option value="$PROJECT_DIR$/Vertification.py" />
         <option value="$PROJECT_DIR$/tools.py" />
         <option value="$PROJECT_DIR$/word2vec.py" />
-        <option value="$PROJECT_DIR$/loadjson.py" />
         <option value="$PROJECT_DIR$/BuildW2VModel.py" />
+        <option value="$PROJECT_DIR$/loadjson.py" />
         <option value="$PROJECT_DIR$/TrainModel.py" />
+        <option value="$PROJECT_DIR$/Vertification.py" />
       </list>
     </option>
   </component>
@@ -397,7 +405,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.12434141" />
@@ -468,7 +476,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/loadjson.py</url>
-          <line>72</line>
+          <line>85</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>
@@ -483,15 +491,6 @@
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/wiki-pages-text/IndexFiles.py" />
-    <entry file="file://$PROJECT_DIR$/score.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ClaimProcessing.py" />
     <entry file="file://$PROJECT_DIR$/testsearch.py" />
     <entry file="file://C:/Program Files/Python37/Lib/site-packages/gensim/corpora/dictionary.py" />
@@ -527,13 +526,6 @@
     <entry file="file://C:/Program Files/Python37/Lib/json/decoder.py" />
     <entry file="file://C:/Program Files/Python37/Lib/json/__init__.py" />
     <entry file="file://C:/Program Files/Python37/Lib/site-packages/keras/optimizers.py" />
-    <entry file="file://C:/Program Files/Python37/Lib/site-packages/keras/engine/training_utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="137" selection-start-line="137" selection-end-line="137" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/Program Files/Python37/Lib/site-packages/keras/engine/training.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="182">
@@ -616,13 +608,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/train.json">
-      <provider selected="true" editor-type-id="LargeFileEditor">
-        <state relative-caret-position="170">
-          <caret line="10" column="16" selection-start-line="10" selection-start-column="16" selection-end-line="10" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/BuildW2VModel.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
@@ -633,20 +618,44 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://C:/Program Files/Python37/Lib/site-packages/keras/engine/training_utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="137" selection-start-line="137" selection-end-line="137" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/score.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="33" lean-forward="true" selection-start-line="5" selection-start-column="33" selection-end-line="5" selection-end-column="33" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/loadjson.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="80" column="39" lean-forward="true" selection-start-line="80" selection-start-column="39" selection-end-line="80" selection-end-column="39" />
+        <state relative-caret-position="298">
+          <caret line="142" column="39" lean-forward="true" selection-start-line="142" selection-start-column="39" selection-end-line="142" selection-end-column="39" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/train.json">
+      <provider selected="true" editor-type-id="LargeFileEditor">
+        <state relative-caret-position="170">
+          <caret line="10" column="16" selection-start-line="10" selection-start-column="16" selection-end-line="10" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/TrainModel.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="43" column="47" selection-start-line="43" selection-start-column="47" selection-end-line="43" selection-end-column="47" />
+        <state relative-caret-position="43">
+          <caret line="48" column="17" selection-start-line="48" selection-start-column="17" selection-end-line="48" selection-end-column="17" />
           <folding>
             <element signature="e#0#64#0" expanded="true" />
           </folding>
@@ -655,8 +664,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Vertification.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-272">
-          <caret line="44" column="74" selection-start-line="44" selection-start-column="63" selection-end-line="44" selection-end-column="74" />
+        <state relative-caret-position="162">
+          <caret line="126" column="53" selection-start-line="126" selection-start-column="53" selection-end-line="126" selection-end-column="53" />
           <folding>
             <element signature="e#0#64#0" expanded="true" />
           </folding>
