@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="735699ba-bc88-4610-a1d8-0a3000a65c86" name="Default Changelist" comment="new version of index&#10;重写了index的逻辑，现在可以用searcher的runTermQuery搜索名字，为了方便为之后的claim搜索evidence。">
-      <change beforePath="$PROJECT_DIR$/TrainModel.py" beforeDir="false" afterPath="$PROJECT_DIR$/TrainModel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Vertification.py" beforeDir="false" afterPath="$PROJECT_DIR$/Vertification.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loadjson.py" beforeDir="false" afterPath="$PROJECT_DIR$/loadjson.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/train_output.txt" beforeDir="false" afterPath="$PROJECT_DIR$/train_output.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vertification.h5" beforeDir="false" afterPath="$PROJECT_DIR$/vertification.h5" afterDir="false" />
-    </list>
+    <list default="true" id="735699ba-bc88-4610-a1d8-0a3000a65c86" name="Default Changelist" comment="new version of index&#10;重写了index的逻辑，现在可以用searcher的runTermQuery搜索名字，为了方便为之后的claim搜索evidence。" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -405,7 +399,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.12434141" />
