@@ -22,6 +22,6 @@ if __name__ == '__main__':
                 print(datetime.now() - end)
                 end = datetime.now()
     except Exception as e:
-        print ("Failed in indexDocs:" + str(e))
+        print ("Failed in BuildW2VModel:" + str(e))
     print(datetime.now() - start)
-    word2vec_model.save('word2vec.model')
+    word2vec_model.save('vector_model.model')

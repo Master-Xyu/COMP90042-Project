@@ -1,7 +1,7 @@
 from tfidf import get_tfidf
 import nltk
 from nltk.corpus import wordnet
-from word2vec import Word2VecModel
+from BuildVector import BuildVector
 
 sentence1 = "Roman Atwood is a content creator."
 sentence2 = ['Roman_Atwood 0 Roman Bernard Atwood -LRB- born May 28 , 1983 -RRB- is an American YouTube personality , comedian , vlogger and pranker .', 'Roman_Atwood 3 He also has another YouTube channel called `` RomanAtwood '' , where he posts pranks .']
@@ -69,19 +69,26 @@ def rebuildSentences(claim, sentences):
 
     #arrange in order
     for word in claimWords:
+        apended = False
         for newWord in newWords:
             if newWord == word:
                 newSentence += word + ' '
+                apended = True
+                break
+        if not apended:
+            newSentence += "awww "
 
     newClaim = ''
     for word in claimWords:
         newClaim += word + ' '
 
+    '''
     #insert new word to make the new sentense have same length with claim
     if len(nltk.word_tokenize(newSentence)) < len(claimWords):
         for i in range(0,len(claimWords) - len(nltk.word_tokenize(newSentence))):
             newSentence += " awwww"
-        '''
+    '''
+    '''
         for sentence in sentences:
             for word in nltk.word_tokenize(sentence):
                 if word.lower() in stoplist:
@@ -94,7 +101,7 @@ def rebuildSentences(claim, sentences):
                         newSentence += insertedWord + ' '
                         if(len(nltk.word_tokenize(newSentence)) == len(claimWords)):
                             return newClaim, newSentence
-        '''
+    '''
     return newClaim, newSentence
 
 def term_query(item, querys):
@@ -107,6 +114,7 @@ def term_query(item, querys):
                 file.close()
                 return line
             line = file.readline()
+        file.close()
     print("No matching error!")
 
 def line_query(query):
@@ -114,9 +122,11 @@ def line_query(query):
         file = open("wiki-pages-text/" + query[0], encoding="utf8")
         for i in range(0, int(query[1])):
             line = file.readline()
+        file.close()
         return line
     except Exception as e:
         print ("Failed in line_query:" + str(e))
+        file.close()
 
 def rebuild_line(line):
     temp_line = line.split()
@@ -136,10 +146,3 @@ if __name__ == '__main__':
     newClaim, newSentence = rebuildSentences(sentence1, sentence2)
     print(newClaim)
     print(newSentence)
-
-'''
-get_tfidf(sentence1, newSentences)
-allwords, newSentences = rebuildSentences(sentence3, sentence4)
-print(newSentences)
-get_tfidf(sentence3, newSentences)
-'''

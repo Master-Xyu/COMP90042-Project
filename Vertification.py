@@ -3,21 +3,21 @@ import tensorflow as tf
 from keras.models import load_model
 from tools import line_query, rebuild_line, rebuildSentences, get_prefix
 from itertools import combinations
-from word2vec import Word2VecModel
+from BuildVector import BuildVector
 from collections import Counter
 import json
 from SearchFiles import searcher
 import numpy as np
 from datetime import datetime
 
-def vertify(claim, model, s, word2vec):
+def vertify(claim, model, s, vector_model):
 
     results = s.runQuery(claim)
     allEvidences = []
     inputs = []
 
     #find i evidences by querying the claim
-    for i in range(0,5):
+    for i in range(0,10):
         sentence = line_query(results[i])
         allEvidences.append(sentence)
     results = []
@@ -42,7 +42,7 @@ def vertify(claim, model, s, word2vec):
                 text.append(rebuild_line(line))
             input_evidences.append(result)
             newClaim, newEvidence = rebuildSentences(claim, text)
-            input_array.append([lenofNewClaim / 100,  word2vec.Word2VecSim(newClaim, newEvidence)])
+            input_array.append([lenofNewClaim / 100,  vector_model.Word2VecSim(newClaim, newEvidence)])
 
     predictResults = model.predict(np.array(input_array,  dtype=float))
     '''
@@ -119,7 +119,7 @@ if __name__ == '__main__':
     amount = 0
     progress = -1
 
-    word2vec = Word2VecModel()
+    vector_model = BuildVector()
     start = datetime.now()
     for key in load_dict.keys():
         try:
@@ -127,7 +127,7 @@ if __name__ == '__main__':
             print(str(100 * round(progress/14996, 3)) + '%  ' + str(progress) + '/14996')
             label = 0
             term = load_dict[key]
-            label, evidence = vertify(term['claim'], model, s, word2vec)
+            label, evidence = vertify(term['claim'], model, s, vector_model)
             #print(term['claim'], ';', term['evidence'], ';', term['label'], ';', label, ';', evidence)
             print(term['claim'], ';', label, ';', evidence)
             out_dict[key] = {}

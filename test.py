@@ -3,7 +3,7 @@ import tensorflow as tf
 from keras.models import load_model
 from tools import line_query, rebuild_line, rebuildSentences, get_prefix
 from itertools import combinations
-from word2vec import Word2VecSim
+from BuildVector import Word2VecSim
 from collections import Counter
 import json
 from SearchFiles import searcher
