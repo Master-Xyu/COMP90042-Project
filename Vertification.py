@@ -17,7 +17,7 @@ def vertify(claim, model, s, vector_model):
     inputs = []
 
     #find i evidences by querying the claim
-    for i in range(0,10):
+    for i in range(0,5):
         sentence = line_query(results[i])
         allEvidences.append(sentence)
     results = []

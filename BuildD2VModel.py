@@ -34,8 +34,8 @@ if __name__ == '__main__':
     model.build_vocab(it)
 
     data = []
-    
+
     print("start training")
     model.train(documents = it, total_examples=model.corpus_count, epochs=model.epochs)
 
-    model.save('doc2vec.model')
+    model.save('doc2vec.doc2vec_model')

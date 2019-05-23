@@ -69,7 +69,6 @@ def indexDocs(storeDir, analyzer):
                     doc = Document()
                     if not line:
                         break
-                    termName = line.split()[0]
                     termName = line.split()[0] + ' ' + line.split()[1]
                     doc.add(Field("name", filename, t1))
                     doc.add(Field("line", i, t1))

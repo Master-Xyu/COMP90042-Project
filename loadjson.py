@@ -83,7 +83,8 @@ if __name__ == '__main__':
                 newClaim, realSentence = rebuildSentences(term['claim'], evidences)
                 resultTerm['label'] = label
                 resultTerm['length'] = len(newClaim.split())
-                resultTerm['similarity'] = vector_model.Word2VecSim(newClaim, realSentence)
+                resultTerm['similarity1'] = vector_model.Word2VecSim(newClaim, realSentence)
+                resultTerm['similarity2'] = vector_model.Doc2VecSim(newClaim, realSentence)
                 index += 1
                 output[index] = resultTerm
 
@@ -93,7 +94,7 @@ if __name__ == '__main__':
                     NoOfT += 1
                 elif label == -1:
                     NoOfF +=1
-                print(newClaim, ';', realSentence, ';', resultTerm['similarity'], resultTerm['label'])
+                print(newClaim, ';', realSentence, ';', resultTerm['similarity1'], ';', resultTerm['similarity2'], ';',resultTerm['label'])
                 resultTerm = {}
 
                 '''

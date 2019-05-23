@@ -22,7 +22,16 @@ def rebuildSentences(claim, sentences):
 
     claimWords = nltk.word_tokenize(claim)
     claimWords = [lemmatize(word.lower()) for word in claimWords if word not in stoplist]
-    claimWords = list(set(claimWords))
+
+    #filter duplicate words in claim
+    duplicated_words = set()
+    claimWords_temp = []
+    for word in claimWords:
+        if word not in duplicated_words:
+            claimWords_temp.append(word)
+            duplicated_words.add(word)
+    claimWords = claimWords_temp
+
     syns = {}
     for word in claimWords:
         syns[word] = wordnet.synsets(word)
@@ -43,10 +52,11 @@ def rebuildSentences(claim, sentences):
     sentences = newSentences
     newSentences = []
 
+    #remove unrelevant words from sentences
+    newSentenceWords = []
     for sentence in sentences:
         senwords = nltk.word_tokenize(sentence)
         senwords = [lemmatize(word.lower()) for word in senwords if word not in stoplist]
-        newSentenceWords = []
         for word in senwords:
             for key in allwords.keys():
                 if word in allwords[key]:
@@ -54,16 +64,8 @@ def rebuildSentences(claim, sentences):
                         newSentenceWords.append(word)
                     else:
                         newSentenceWords.append(key)
-        newSentence = ''
-        newSentenceWords = list(set(newSentenceWords))
-        for word in newSentenceWords:
-            newSentence += word + ' '
-        newSentences.append(newSentence)
 
-    newSentence = ''
-    for sentence in newSentences:
-        newSentence += sentence
-    newWords = list(set(newSentence.split()))
+    newWords = list(set(newSentenceWords))
 
     newSentence = ''
 

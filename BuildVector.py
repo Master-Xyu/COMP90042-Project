@@ -7,19 +7,25 @@ sentence2 = 'nikolaj coster-waldau work fox broadcast company'
 
 class BuildVector:
     def __init__(self):
-        #self.word2vec_model = gensim.models.Word2Vec.load('vector_model.model')
-        self.model = gensim.models.Doc2Vec.load('doc2vec.model')
+        self.word2vec_model = gensim.models.Word2Vec.load('word2vec.model')
+        self.doc2vec_model = gensim.models.Doc2Vec.load('doc2vec.model')
 
-    def Word2VecSim(self, claim, sentence):
+    def Doc2VecSim(self, claim, sentence):
         if sentence == '':
             return 0
         reader = [claim, sentence]
         #self.word2vec_model.build_vocab(reader)
         #self.word2vec_model.train(reader, total_examples=self.word2vec_model.corpus_count, epochs=self.word2vec_model.epochs)
-        #claimVec = self.sent2vec(self.word2vec_model, reader[0])
-        #sentenceVec = self.sent2vec(self.word2vec_model, reader[1])
-        claimVec =self.model.infer_vector(claim.split())
-        sentenceVec = self.model.infer_vector(sentence.split())
+        claimVec =self.doc2vec_model.infer_vector(claim.split())
+        sentenceVec = self.doc2vec_model.infer_vector(sentence.split())
+        return self.similarity(claimVec, sentenceVec)
+
+    def Word2VecSim(self, claim, sentence):
+        if sentence == '':
+            return 0
+        reader = [claim, sentence]
+        claimVec = self.sent2vec(self.word2vec_model, reader[0])
+        sentenceVec = self.sent2vec(self.word2vec_model, reader[1])
         return self.similarity(claimVec, sentenceVec)
 
     def sent2vec(self, model, words):
@@ -48,7 +54,3 @@ class BuildVector:
         else:
             cos = dot_val / ((a_norm * b_norm) ** 0.5)
         return cos
-
-if __name__ == '__main__':
-
-    print(Word2VecSim(sentence1, sentence2))

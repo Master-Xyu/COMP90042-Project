@@ -24,4 +24,4 @@ if __name__ == '__main__':
     except Exception as e:
         print ("Failed in BuildW2VModel:" + str(e))
     print(datetime.now() - start)
-    word2vec_model.save('vector_model.model')
+    word2vec_model.save('word2vec.model')

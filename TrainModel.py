@@ -17,7 +17,7 @@ dic = json.loads(js)
 input = []
 output = []
 for key in dic.keys():
-    input.append([int(dic[key]['length'])/100, float(dic[key]['similarity'])])
+    input.append([int(dic[key]['length'])/100, float(dic[key]['similarity1']), float(dic[key]['similarity2'])])
     output.append(float(dic[key]['label']))
 
 train_input  = np.array(input,  dtype=float)
@@ -38,7 +38,7 @@ print(t)
 print(f)
 print(n)
 model=Sequential([
-    Dense(input_dim=2,units=64),
+    Dense(input_dim=3,units=64),
     Activation('relu'),
     Dropout(0.1),
     Dense(units=128),
@@ -63,7 +63,7 @@ print('Training-------------------')
 
 history =  model.fit(train_input,train_output,nb_epoch=200,batch_size=64)
 
-print("Finished training the model")
+print("Finished training the doc2vec_model")
 
 model.save('vertification.h5')
 
