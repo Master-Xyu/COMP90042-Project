@@ -29,7 +29,7 @@ def vertify(claim, model, s, vector_model):
         inputs.append(list(combinations(allEvidences, i)))
 
     #build input array from all inputs
-    predictions = []
+    #predictions = []
     input_evidences = []
     input_array = []
     for outer in inputs:
@@ -42,24 +42,51 @@ def vertify(claim, model, s, vector_model):
                 text.append(rebuild_line(line))
             input_evidences.append(result)
             newClaim, newEvidence = rebuildSentences(claim, text)
-            input_array.append([lenofNewClaim / 100,  vector_model.Word2VecSim(newClaim, newEvidence)])
+            input_array.append([lenofNewClaim / 100,  vector_model.Word2VecSim(newClaim, newEvidence), vector_model.Doc2VecSim(newClaim, newEvidence)])
 
     predictResults = model.predict(np.array(input_array,  dtype=float))
     '''
     for result in list(predictResults):
         print(result)
     '''
+
+    highest_support = 0
+    support_index = -1
+    highest_refute = 0
+    refute_index = -1
+
     #decide label based on support or refute is larger, if none of them then no evidence
-    for predictResult in predictResults:
-        if predictResult[0] > predictResult[1] and predictResult[0] > predictResult[2]:
-            predictions.append(0)
-        elif predictResult[1] > predictResult[0] and predictResult[1] > predictResult[2]:
-            predictions.append(1)
-        elif predictResult[2] > predictResult[0] and predictResult[2] > predictResult[1]:
-            predictions.append(-1)
+    for i in range(0,len(predictResults)):
+        if predictResults[i][0] > predictResults[i][1] and predictResults[i][0] > predictResults[i][2]:
+            #predictions.append(0)
+            continue
+        elif predictResults[i][1] > predictResults[i][0] and predictResults[i][1] > predictResults[i][2]:
+            #predictions.append(1)
+            if predictResults[i][1] > highest_support:
+                highest_support = predictResults[i][1]
+                support_index = i
+            elif predictResults[i][1] == highest_support:
+                if len(input_evidences[support_index]) > len(input_evidences[i]):
+                    support_index = i
+        elif predictResults[i][2] > predictResults[i][0] and predictResults[i][2] > predictResults[i][1]:
+            #predictions.append(-1)
+            if predictResults[i][2] > highest_refute:
+                highest_refute = predictResults[i][2]
+                refute_index = i
+            elif predictResults[i][2] == highest_refute:
+                if len(input_evidences[refute_index]) > len(input_evidences[i]):
+                    refute_index = i
         else:
             print("Error in deciding label.")
 
+    if support_index == -1 and refute_index == -1:
+        return "NOT ENOUGH INFO", []
+    elif highest_support >= highest_refute:
+        return "SUPPORTS", input_evidences[support_index]
+    else:
+        return "REFUTES", input_evidences[refute_index]
+
+    '''
     #decide the final label according to amount
     c = Counter(predictions)
     if c[1] != 0 and c[-1] != 0:
@@ -73,7 +100,6 @@ def vertify(claim, model, s, vector_model):
         label = -1
     else:
         return "NOT ENOUGH INFO", []
-
     shortest_input = -1
     highest_score = 0.0
     shortest_length = 100
@@ -103,7 +129,7 @@ def vertify(claim, model, s, vector_model):
         return "SUPPORTS", input_evidences[shortest_input]
     else:
         return "REFUTES", input_evidences[shortest_input]
-
+    '''
 
 if __name__ == '__main__':
     model = load_model('vertification.h5')

@@ -61,7 +61,7 @@ model.compile(loss='categorical_crossentropy',
 # 训练模型
 print('Training-------------------')
 
-history =  model.fit(train_input,train_output,nb_epoch=200,batch_size=64)
+history =  model.fit(train_input,train_output,nb_epoch=500,batch_size=64)
 
 print("Finished training the doc2vec_model")
 
