@@ -1,5 +1,4 @@
 from SearchFiles import searcher
-from tfidf import get_tfidf
 from tools import rebuildSentences
 from BuildVector import BuildVector
 import json

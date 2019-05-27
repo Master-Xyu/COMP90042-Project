@@ -1,4 +1,3 @@
-from tfidf import get_tfidf
 import nltk
 from nltk.corpus import wordnet
 from BuildVector import BuildVector
