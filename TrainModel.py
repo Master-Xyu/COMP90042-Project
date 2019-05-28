@@ -53,12 +53,10 @@ model=Sequential([
 
 optimizer=Adadelta(lr=1.0, rho=0.95, epsilon=1e-06)
 
-# 编译神经网络模型
 model.compile(loss='categorical_crossentropy',
               optimizer=optimizer,
               metrics=['accuracy'])
 
-# 训练模型
 print('Training-------------------')
 
 history =  model.fit(train_input,train_output,nb_epoch=500,batch_size=64)
